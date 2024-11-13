@@ -2,14 +2,21 @@ package com.devsm.springbasic.order;
 
 import com.devsm.springbasic.discount.DiscountPolicy;
 import com.devsm.springbasic.discount.FixDiscountPolicy;
+import com.devsm.springbasic.discount.RateDiscountPolicy;
 import com.devsm.springbasic.member.Member;
 import com.devsm.springbasic.member.MemberRepository;
 import com.devsm.springbasic.member.MemoryMemberRepository;
 
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    //인터페이스에만 의존한다.
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
