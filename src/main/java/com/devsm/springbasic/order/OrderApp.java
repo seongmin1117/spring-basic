@@ -1,14 +1,23 @@
 package com.devsm.springbasic.order;
 
+import com.devsm.springbasic.AppConfig;
 import com.devsm.springbasic.member.Grade;
 import com.devsm.springbasic.member.Member;
 import com.devsm.springbasic.member.MemberService;
 import com.devsm.springbasic.member.MemberServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class OrderApp {
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
-        OrderService orderService = new OrderServiceImpl();
+
+//        AppConfig appConfig = new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+//        OrderService orderService = appConfig.orderService();
+
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
 
         Long memberId = 1L;
         Member member = new Member(memberId,"memberA", Grade.VIP);
